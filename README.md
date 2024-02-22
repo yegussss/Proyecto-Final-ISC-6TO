@@ -1,6 +1,6 @@
 # README - API RESTful de Gestión de Alumnos para Congreso UAL
 
-Este repositorio contiene una API RESTful para la gestión de alumnos que asistirán al Congreso de la Universidad Autónoma de Lengua (UAL). La API permite realizar operaciones de alta, baja, cambios y despliegue de información sobre los alumnos registrados para el congreso.
+Este repositorio contiene una API RESTful para la gestión de alumnos que asistirán al Congreso de la Universidad Autónoma de la Laguna (UAL). La API permite realizar operaciones de alta, baja, cambios y despliegue de información sobre los alumnos registrados para el congreso.
 
 ## Dependencias Requeridas
 Las dependencias necesarias para ejecutar esta API son las siguientes:
