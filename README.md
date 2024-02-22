@@ -6,6 +6,6 @@ Dependencias Requeridas:
 
 Las dependencias necesarias para ejecutar esta API son las siguientes:
 
--Mongoose: Herramienta de modelado de objetos MongoDB para Node.js, diseñada para trabajar con MongoDB.
--Express: Framework web de Node.js que proporciona un conjunto robusto de características para la creación de aplicaciones web y APIs.
--Bootstrap: Framework de código abierto para el diseño de sitios y aplicaciones web, que ofrece una amplia gama de componentes y utilidades para el desarrollo frontend.
+Mongoose: Herramienta de modelado de objetos MongoDB para Node.js, diseñada para trabajar con MongoDB.
+Express: Framework web de Node.js que proporciona un conjunto robusto de características para la creación de aplicaciones web y APIs.
+Bootstrap: Framework de código abierto para el diseño de sitios y aplicaciones web, que ofrece una amplia gama de componentes y utilidades para el desarrollo frontend.
