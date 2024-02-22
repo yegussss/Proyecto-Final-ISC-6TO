@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alumnos</title>
+    <!-- Se importa la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="my-5">Lista de Alumnos</h1>
+
+        <!-- Input de búsqueda -->
+        <div class="mb-3">
+            <input id="inputBusqueda" class="form-control" type="text" placeholder="Buscar por matrícula">
+        </div>
+
+        <!-- Tabla de alumnos -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Carrera</th>
+                    <th>Asistencia</th>
+                    <th>Fecha de Creación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaAlumnos">
+                <!-- Aquí se mostrarán los alumnos -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Se importa el script de Bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputBusqueda = document.getElementById('inputBusqueda');
+            const tablaAlumnos = document.getElementById('tablaAlumnos');
+
+            // Función para obtener todos los alumnos
+            function obtenerTodosLosAlumnos() {
+                fetch('/alumnos')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Limpiamos la tabla
+                        tablaAlumnos.innerHTML = '';
+                        // Insertamos los resultados en la tabla
+                        data.forEach(alumno => {
+                            tablaAlumnos.innerHTML += `
+                                <tr>
+                                    <td>${alumno.matr}</td>
+                                    <td>${alumno.nom}</td>
+                                    <td>${alumno.apat}</td>
+                                    <td>${alumno.amat}</td>
+                                    <td>${alumno.carrera}</td>
+                                    <td>${alumno.asist ? 'Sí' : 'No'}</td>
+                                    <td>${alumno.createdAt}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-editar" onclick="redireccionar('${alumno._id}')">Editar</button>
+                                        <button class="btn btn-danger btn-eliminar" data-id="${alumno._id}">Eliminar</button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Llamamos a la función para obtener todos los alumnos cuando la página se carga
+            obtenerTodosLosAlumnos();
+
+            inputBusqueda.addEventListener('keyup', function () {
+                const matricula = inputBusqueda.value.trim();
+                if (matricula !== '') {
+                    fetch(`/alumnos/buscar/${matricula}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Limpiamos la tabla
+                            tablaAlumnos.innerHTML = '';
+                            // Insertamos los resultados de la búsqueda en la tabla
+                            data.forEach(alumno => {
+                                tablaAlumnos.innerHTML += `
+                                    <tr>
+                                        <td>${alumno.matr}</td>
+                                        <td>${alumno.nom}</td>
+                                        <td>${alumno.apat}</td>
+                                        <td>${alumno.amat}</td>
+                                        <td>${alumno.carrera}</td>
+                                        <td>${alumno.asist ? 'Sí' : 'No'}</td>
+                                        <td>${alumno.createdAt}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-editar" onclick="redireccionar('${alumno._id}')">Editar</button>
+                                            <button class="btn btn-danger btn-eliminar" data-id="${alumno._id}">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                } else {
+                    // Si el campo de búsqueda está vacío, mostramos todos los alumnos nuevamente
+                    obtenerTodosLosAlumnos();
+                }
+            });
+
+
+            // Escuchar clics en botones de editar y eliminar
+            tablaAlumnos.addEventListener('click', function (event) {
+                const target = event.target;
+                if (target.classList.contains('btn-eliminar')) {
+                    const alumnoId = target.getAttribute('data-id');
+                    eliminarAlumno(alumnoId);
+                }
+            });
+
+            function eliminarAlumno(alumnoId) {
+                fetch(`/alumnos/${alumnoId}`, { // Cambia la ruta para incluir el ID del alumno
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            throw new Error('Error al eliminar alumno');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error: ' + error.message);
+                    });
+            }
+        });
+
+        function redireccionar(id) {
+            // Redirigir a una nueva página, pasando el ID del alumno como parámetro en la URL
+            window.location.href = '/upAlumnos.html?id=' + id;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1>Registra tu asistencia</h1>
+                <form id="formulario" action="/alumnos" method="post">
+                    <!-- Matricula -->
+                    <div class="mb-3">
+                        <input id="matr" name="matr" class="form-control" type="text" placeholder="Matricula" aria-label=".form-control-sm example">
+                    </div>
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <input id="nom" name="nom" class="form-control" type="text" placeholder="Nombre" aria-label=".form-control-sm example">
+                    </div>
+                    <!-- Apellido paterno -->
+                    <div class="mb-3">
+                        <input id="apat" name="apat" class="form-control" type="text" placeholder="Apellido paterno" aria-label=".form-control-sm example">
+                    </div>
+                    <!-- Apellido materno -->
+                    <div class="mb-3">
+                        <input id="amat" name="amat" class="form-control" type="text" placeholder="Apellido materno" aria-label=".form-control-sm example">
+                    </div>
+                    <!-- Carrera -->
+                    <div class="mb-3">
+                        <select id="carr" name="carr" class="form-select" aria-label="Default select example" required>
+                            <option selected disabled value="">Carrera</option>
+                            <option value="ISC">ISC</option>
+                            <option value="IME">IME</option>
+                            <option value="ISA">ISA</option>
+                            <option value="IIS">IIS</option>
+                        </select>
+                    </div>
+                    <!-- Botón Guardar -->
+                    <div class="mb-3">
+                        <button id="btn-actualizar" type="submit" class="btn btn-primary" disabled>Guardar</button>
+                    </div>
+                </form>
+                <!-- Div para mostrar mensaje -->
+                <div id="mensaje"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script>
+        function verificarCampos() {
+            var matricula = document.getElementById("matr").value;
+            var nombre = document.getElementById("nom").value;
+            var apPaterno = document.getElementById("apat").value;
+            // var apMaterno = document.getElementById("amat").value;
+            var carrera = document.getElementById("carr").value;
+
+            var btnActualizar = document.getElementById("btn-actualizar");
+
+            // Verificar si todos los campos están llenos
+            if (matricula && nombre && apPaterno && carrera) {
+                // Habilitar el botón de actualizar si todos los campos están llenos
+                btnActualizar.disabled = false;
+            } else {
+                // Inhabilitar el botón de actualizar si algún campo está vacío
+                btnActualizar.disabled = true;
+            }
+        }
+
+        // Agregar eventos de cambio a los campos para llamar a la función verificarCampos
+        document.getElementById("matr").addEventListener("input", verificarCampos);
+        document.getElementById("nom").addEventListener("input", verificarCampos);
+        document.getElementById("apat").addEventListener("input", verificarCampos);
+        // document.getElementById("amat").addEventListener("input", verificarCampos);
+        document.getElementById("carr").addEventListener("change", verificarCampos);
+
+        // Agregar evento de escucha para el submit del formulario
+        document.getElementById("formulario").addEventListener("submit", function(event) {
+            // Prevenir el envío del formulario
+            event.preventDefault();
+            // Mostrar el alert de datos guardados correctamente
+            alert("Los datos fueron guardados correctamente");
+            // Enviar el formulario
+            this.submit();
+        });
+    </script>
+</body>
+</html>
